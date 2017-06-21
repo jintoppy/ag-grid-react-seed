@@ -1,10 +1,11 @@
 import React, {Component} from "react";
 import {AgGridReact} from "ag-grid-react";
+import Input from './Input';
 
 export default class extends Component {
     constructor(props) {
         super(props);
-
+        this.onPriceChange = this.onPriceChange.bind(this);
         this.state = {
             columnDefs: this.createColumnDefs(),
             rowData: this.createRowData()
@@ -17,12 +18,27 @@ export default class extends Component {
 
         this.gridApi.sizeColumnsToFit();
     }
-
+    onPriceChange(){
+        console.log('on price change');
+    }
     createColumnDefs() {
         return [
             {headerName: "Make", field: "make"},
             {headerName: "Model", field: "model"},
-            {headerName: "Price", field: "price"}
+            {
+                headerName: "Price", 
+                field: "price",
+                cellRendererFramework: (params) => {
+                    const cellData = params.data;
+                    const optInElement = (
+                        <Input
+                        type="text"
+                        onChange={() => this.onPriceChange()}
+                        value={cellData}
+                        />);
+                    return optInElement;
+                }
+            }
         ];
     }
 
@@ -47,7 +63,7 @@ export default class extends Component {
                     // properties
                     columnDefs={this.state.columnDefs}
                     rowData={this.state.rowData}
-
+                    suppressRowClickSelection
                     // events
                     onGridReady={this.onGridReady}>
                 </AgGridReact>

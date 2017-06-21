@@ -7,7 +7,7 @@ module.exports = {
     entry: "./src/index.js",
     output: {
         path: helpers.root('dist'),
-        publicPath: 'http://localhost:8080/',
+        publicPath: '/dist',
         filename: '[name].js'
     },
 
